@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pi-forensics-toolkit"
+version = "0.1.0"
+description = "Read-only Raspberry Pi boot-chain forensics toolkit"
+authors = [{name="dials"}]
+dependencies = [
+  "click>=8.0",
+  "rich>=13.0",
+  "jinja2>=3.0",
+  "pandas>=2.0",
+  "python-dateutil>=2.8",
+  "tldextract>=3.4"
+]
+
+[project.scripts]
+pi-forensics = "pi_forensics_toolkit.cli:main"
+

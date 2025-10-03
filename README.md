@@ -2,7 +2,7 @@
 
 i got ragebaited by a tiktok into platform security research so here we go...
 
-this is a small, reachonly toolkit to capture and analyze raspberry pi boot-chain artifacts. should grab SD image, boot partition blobs)
+this is a small, readonly toolkit to capture and analyze raspberry pi boot-chain artifacts. should grab SD image, boot partition blobs)
 this should produce reproducible, human readable reports. but then again i am writing this out of rage at 1 in the morning so fingers crossed, gang. 
 
 ## Quickstart (Arch Linux)

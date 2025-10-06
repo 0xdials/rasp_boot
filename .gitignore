@@ -1,12 +1,40 @@
+# Python cache / build junk
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
 *.egg-info/
 dist/
 build/
-output/*
+*.egg
+*.log
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# IDE / editor junk
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Output and generated analysis
+output/
+data/os_images/
+data/known_hashes/*.bak
+*.tmp
+baseline.*
+
+# keep repo markers
 !.gitignore
 !.keep
+
+# Environment/config
 .env
-.vscode/
-.ipynb_checkpoints/
 

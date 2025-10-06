@@ -31,6 +31,17 @@ _No imaging artifacts found._
 _No boot files found._
 {% endif %}
 
+## Baseline comparison (known-good vs observed)
+{% if baseline_compare %}
+| File | Status | Observed SHA256 | Expected SHA256 |
+|---|---|---|---|
+{% for f, rec in baseline_compare.items() %}
+| `{{ f }}` | {{ rec.status }} | `{{ rec.observed }}` | `{{ rec.expected if rec.expected else "—" }}` |
+{% endfor %}
+{% else %}
+_No baseline available or no boot files to compare._
+{% endif %}
+
 ## Interesting indicators
 {% if indicators %}
 ### Domains
@@ -55,12 +66,12 @@ _No indicators found._
 {{ binwalk_summary or "_No binwalk summary present._" }}
 
 ## Next steps
-- Manual review of suspicious domains/IPs
-- Compare start.elf / bootcode.bin hashes to known-good references (if available)
-- Preserve original image in cold-storage
+- If any **mismatch**: confirm you’re comparing the right firmware version; re-image and re-hash.
+- If any **unknown**: add expected hashes to the baseline once verified from the official source.
+- Preserve the original image; share this report + `baseline_compare.json` for peer verification.
 """
 
-def render_markdown(root: str, summary: Dict[str, Any], out_path: str):
+def render_markdown(root: str, summary: Dict, out_path: str):
     ensure_dir(Path(out_path).parent.as_posix())
     t = Template(MD_TEMPLATE)
     content = t.render(
@@ -69,6 +80,7 @@ def render_markdown(root: str, summary: Dict[str, Any], out_path: str):
         root=root,
         imaging=summary.get("imaging"),
         boot_files=summary.get("boot_files"),
+        baseline_compare=summary.get("baseline_compare"),
         indicators=summary.get("indicators"),
         binwalk_summary=summary.get("binwalk_summary")
     )
@@ -77,13 +89,11 @@ def render_markdown(root: str, summary: Dict[str, Any], out_path: str):
     return out_path
 
 def render_html(md_path: str, out_path: str):
-    # Minimal conversion using markdown (avoid adding dependency). Use simple conversion.
     try:
         import markdown
         with open(md_path, "r", encoding="utf-8") as fh:
             html = markdown.markdown(fh.read(), extensions=['tables'])
     except Exception:
-        # fallback: wrap in <pre>
         with open(md_path, "r", encoding="utf-8") as fh:
             html = "<pre>" + fh.read() + "</pre>"
     ensure_dir(Path(out_path).parent.as_posix())

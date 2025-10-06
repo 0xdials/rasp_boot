@@ -1,12 +1,14 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pi-forensics-toolkit"
-version = "0.1.0"
+version = "0.1.1"
 description = "Read-only Raspberry Pi boot-chain forensics toolkit"
-authors = [{name="dials"}]
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Pi Forensics Contributors" }]
 dependencies = [
   "click>=8.0",
   "rich>=13.0",
@@ -18,4 +20,13 @@ dependencies = [
 
 [project.scripts]
 pi-forensics = "pi_forensics_toolkit.cli:main"
+
+# 👇 this is the part you were missing
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*", "data*", "notebooks*", "scripts*", "output*"]
 

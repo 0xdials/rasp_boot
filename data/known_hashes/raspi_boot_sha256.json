@@ -1,0 +1,16 @@
+{
+  "source": "Raspberry Pi Firmware Github",
+  "notes": "Known-good SHA256 for Raspberry Pi boot blobs. Replace these with real hashes from official releases.",
+  "files": {
+    "start.elf": "14d54df30f437e2120dd99f81ae0427ad033a7ed258e20b366a5ffcff5633e35",
+    "bootcode.bin": "4948532b1c5b60935388301715154ad8d3ed394727568d830ea883468a3f5ef9",
+    "fixup4cd.dat": "788e6403b1e1c6d7e86b8a5de5748434f55d898b0c36c2bb27cc991649de0a4f",
+    "fixup4.dat": "304b53a7a5a7129531b2674b0fd55240086c5bbd276ff029c63cd68fcf28c0e1",
+    "fixup4db.dat": "bccab51454e8a586f69aabb126ff733ecaae2602c000d4f1ce2258694a85e5f9",
+    "fixup4x.dat": "f09315a79748542c8556dfbab6bb748153a4e2716893e7d1b865a312a9c87447",
+    "fixup_cd.dat": "788e6403b1e1c6d7e86b8a5de5748434f55d898b0c36c2bb27cc991649de0a4f",
+    "fixup.dat": "bf23063135feaba121b2a8340cc1d25425d921551c8cb3446efd21f3aa50f396",
+    "fixup_db.dat": "45ce29d2644afd978a73f8d5f3feb99f4268dc7550f25445673348668db62edf",
+    "fixup_x.dat": "5e41fb29415e9b7e9a0696e4b1838f51d65a7f2bdb29244a454b0ee8b142c225"
+  }
+}

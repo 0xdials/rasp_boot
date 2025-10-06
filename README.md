@@ -41,8 +41,8 @@ scripts/update_baseline_from_dir.sh firmware/boot \
 sudo scripts/collect_artifacts.sh
 
 # generate report
-pi-bootcheck summarize --root output/<timestamp>
-pi-bootcheck report --root output/<timestamp> --format md
+pibootcheck summarize --root output/<timestamp>
+pibootcheck report --root output/<timestamp> --format md
 ```
 
 the report lives under `output/<timestamp>/reports/`. open it, scroll down to “baseline comparison,” and you’ll see every boot file marked _match_, _mismatch_, or _unknown_.

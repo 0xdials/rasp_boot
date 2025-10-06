@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.scripts]
-pi-bootcheck = "pi_bootcheck.cli:main"
+pibootcheck = "pi_bootcheck.cli:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }

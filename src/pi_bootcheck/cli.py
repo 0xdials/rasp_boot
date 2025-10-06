@@ -43,7 +43,7 @@ def _compare_boot_hashes(boot_files: dict, baseline: dict) -> dict:
 
 @click.group()
 def main():
-    """pi-forensics — Raspberry Pi read-only forensics toolkit"""
+    """pibootcheck — Raspberry Pi read-only forensics toolkit"""
     pass
 
 @main.command()
@@ -75,7 +75,7 @@ def summarize(root):
             boot_files[os.path.basename(p)] = h
 
     # baseline compare (optional)
-    repo_root = Path(__file__).resolve().parents[2]  # repo root (pi-forensics/)
+    repo_root = Path(__file__).resolve().parents[2]  # repo root (pibootcheck/)
     baseline = _load_baselines(repo_root)
     baseline_compare = _compare_boot_hashes(boot_files, baseline) if boot_files else {}
 
@@ -123,7 +123,7 @@ def report(root, fmt):
     rootp = Path(root)
     summary_path = rootp / "analysis" / "summary.json"
     if not summary_path.exists():
-        click.echo("Summary JSON not found; run `pi-forensics summarize` first.", err=True)
+        click.echo("Summary JSON not found; run `pibootcheck summarize` first.", err=True)
         raise SystemExit(2)
     with open(summary_path, "r", encoding="utf-8") as fh:
         summary = json.load(fh)

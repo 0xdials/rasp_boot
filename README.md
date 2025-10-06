@@ -2,7 +2,6 @@
 
 a read-only toolkit that grabs the boot-chain off a Raspberry Pi and proves whether it’s running the official firmware or some mystery binary
 
-
 ## what it actually does
 
 - images the sd card **read-only** so nothing gets touched
@@ -14,18 +13,16 @@ a read-only toolkit that grabs the boot-chain off a Raspberry Pi and proves whet
 
 that’s it. no drivers, no kernel hooks
 
----
-
 ## why it matters
 
 if your boot firmware matches the public release **bit for bit**, it’s the same binary everyone else gets.  
 no hidden code, no secret phone-home instructions. any change would flip the hash.  
 this doesn’t prove the kernel or userland are clean — just that the firmware that _starts_ the Pi doesn't have any surprises
 
----
 ## quickstart
 
 i ran it on arch
+
 ```bash
 sudo pacman -S binwalk multipath-tools p7zip dosfstools wireshark-cli picocom
 python -m venv .venv && source .venv/bin/activate
@@ -47,8 +44,6 @@ pibootcheck report --root output/<timestamp> --format md
 
 the report lives under `output/<timestamp>/reports/`. open it, scroll down to “baseline comparison,” and you’ll see every boot file marked _match_, _mismatch_, or _unknown_.
 
----
-
 ## what you’ll see
 
 **match** → byte-for-byte official  
@@ -56,8 +51,6 @@ the report lives under `output/<timestamp>/reports/`. open it, scroll down to �
 **unknown** → file not in baseline (add it if it’s official)
 
 if everything’s green, congrats — your Pi isn’t running some secret firmware
-
----
 
 ## safety notes
 

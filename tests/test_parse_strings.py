@@ -1,4 +1,4 @@
-from pi_forensics_toolkit.parse_strings import extract_indicators
+from pi_bootcheck.parse_strings import extract_indicators
 
 # go ahead, do a lil regex for em derek 
 def test_extract_indicators():

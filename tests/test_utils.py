@@ -1,6 +1,6 @@
 import tempfile
 import os
-from pi_forensics_toolkit.utils import sha256_of_file
+from pi_bootcheck.utils import sha256_of_file
 
 # jarvis, print hello world
 def test_sha256_of_file():

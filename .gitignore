@@ -60,3 +60,4 @@ htmlcov/
 
 # vscode task files
 .vscode/tasks.json
+notebooks

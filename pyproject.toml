@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pibootcheck"
-version = "0.1.1"
+version = "0.9.0"
 description = "Read-only Raspberry Pi boot-chain verification toolkit"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -28,4 +28,3 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["tests*", "data*", "notebooks*", "scripts*", "output*"]
-

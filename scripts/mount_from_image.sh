@@ -16,7 +16,7 @@ done
 LOOP=$(losetup -f --show "$IMG")
 kpartx -av "$LOOP"
 sleep 1
-# find FAT partition
+# gotta find which partition is the FAT boot one
 BOOT_PART=""
 for dev in /dev/mapper/*; do
   if [ -b "$dev" ]; then
@@ -36,4 +36,3 @@ mkdir -p "$MNT"
 mount -o ro "$BOOT_PART" "$MNT"
 echo "Mounted $BOOT_PART read-only at $MNT"
 echo "To unmount: umount $MNT && kpartx -d $LOOP && losetup -d $LOOP"
-

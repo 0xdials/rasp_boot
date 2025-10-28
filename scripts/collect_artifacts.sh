@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# POSIX-compatible bash script (Arch-friendly)
-# Collect a full image from a block device, mount boot partition read-only,
-# run file / strings / binwalk on boot blobs, compute hashes, and log everything.
+# dumb read-only pi image grabber and analysis script
+# collect a full image from a block device, mount boot partition read-only,
+# runs file / strings / binwalk on boot blobs, compute hashes, and logs
 set -euo pipefail
 
 log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$*"; }
@@ -134,4 +134,3 @@ losetup -d "$LOOP"
 
 log "Done. Outputs in $ROOT"
 set +x
-

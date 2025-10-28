@@ -2,15 +2,21 @@ import click
 import json
 import os
 from pathlib import Path
-from .artifacts import find_image, collect_boot_files, compute_hashes_for_files, load_binwalk_summary
+from .artifacts import (
+    find_image,
+    collect_boot_files,
+    compute_hashes_for_files,
+    load_binwalk_summary,
+)
 from .parse_strings import extract_indicators
 from .report import render_markdown, render_html
 from .utils import now_timestamp, sha256_of_file, ensure_dir
 
 PACKAGE_VERSION = "0.1.1"
 
+
 def _load_baselines(repo_root: Path) -> dict:
-    """Load any JSON baselines under data/known_hashes/*.json and merge them."""
+    """Load all JSON baseline files from data/known_hashes and mash them together."""
     files = list((repo_root / "data" / "known_hashes").glob("*.json"))
     baseline = {}
     for p in files:
@@ -23,11 +29,12 @@ def _load_baselines(repo_root: Path) -> dict:
             continue
     return baseline
 
+
 def _compare_boot_hashes(boot_files: dict, baseline: dict) -> dict:
     """
-    Compare observed boot file hashes (basename->sha256) to baseline mapping.
-    Returns { basename: { observed, expected (maybe), status } }
-    status: match | mismatch | unknown
+    check boot file hashes against what we expect
+    returns a dict mapping each file to its observed and expected hashes
+    along with whether they match, mismatch, or are unknown.
     """
     out = {}
     for base, observed in boot_files.items():
@@ -41,15 +48,17 @@ def _compare_boot_hashes(boot_files: dict, baseline: dict) -> dict:
         out[base] = {"observed": observed, "expected": expected, "status": status}
     return out
 
+
 @click.group()
 def main():
-    """pibootcheck — Raspberry Pi read-only forensics toolkit"""
+    # main CLI entry point for pibootcheck
     pass
+
 
 @main.command()
 @click.option("--root", required=True, help="Output root directory (e.g. output/<ts>)")
 def summarize(root):
-    """Parse artifacts, aggregate hashes, extract candidate hostnames/urls/ips, produce JSON + CSV summaries"""
+    """dig through collected artifacts, hash things, pull out suspected hostnames, save JSON summaries."""
     rootp = Path(root)
     if not rootp.exists():
         click.echo(f"Root {root} does not exist.", err=True)
@@ -70,12 +79,14 @@ def summarize(root):
     boot_files = {}
     if boot_mount_copy.exists():
         files = list(collect_boot_files(str(root), str(boot_mount_copy)))
-        hashes = compute_hashes_for_files(files, str(rootp / "analysis" / "hashes" / "boot_sha256.txt"))
+        hashes = compute_hashes_for_files(
+            files, str(rootp / "analysis" / "hashes" / "boot_sha256.txt")
+        )
         for p, h in hashes.items():
             boot_files[os.path.basename(p)] = h
 
     # baseline compare (optional)
-    repo_root = Path(__file__).resolve().parents[2]  # repo root (pibootcheck/)
+    repo_root = Path(__file__).resolve().parents[2]  # find repo root (pibootcheck/)
     baseline = _load_baselines(repo_root)
     baseline_compare = _compare_boot_hashes(boot_files, baseline) if boot_files else {}
 
@@ -101,7 +112,7 @@ def summarize(root):
         "boot_files": boot_files,
         "baseline_compare": baseline_compare,
         "indicators": indicators,
-        "binwalk_summary": binwalk_summary
+        "binwalk_summary": binwalk_summary,
     }
 
     ensure_dir(str(rootp / "analysis"))
@@ -110,20 +121,25 @@ def summarize(root):
 
     # also write a machine-friendly compare file
     if baseline_compare:
-        with open(rootp / "analysis" / "baseline_compare.json", "w", encoding="utf-8") as fh:
+        with open(
+            rootp / "analysis" / "baseline_compare.json", "w", encoding="utf-8"
+        ) as fh:
             json.dump(baseline_compare, fh, indent=2)
 
     click.echo(f"Summary written to {rootp / 'analysis' / 'summary.json'}")
+
 
 @main.command()
 @click.option("--root", required=True, help="Output root directory")
 @click.option("--format", "fmt", type=click.Choice(["md", "html"]), default="md")
 def report(root, fmt):
-    """Build a human-readable report from summaries to output/<ts>/reports/report.md (and html if requested)"""
+    """build a human-readable report from summaries to output/<ts>/reports/report.md (and html if requested)"""
     rootp = Path(root)
     summary_path = rootp / "analysis" / "summary.json"
     if not summary_path.exists():
-        click.echo("Summary JSON not found; run `pibootcheck summarize` first.", err=True)
+        click.echo(
+            "Summary JSON not found; run `pibootcheck summarize` first.", err=True
+        )
         raise SystemExit(2)
     with open(summary_path, "r", encoding="utf-8") as fh:
         summary = json.load(fh)
@@ -138,4 +154,3 @@ def report(root, fmt):
             click.echo(f"HTML report: {out_html}")
         except Exception as e:
             click.echo(f"Failed to render HTML: {e}", err=True)
-

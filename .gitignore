@@ -39,3 +39,24 @@ baseline.*
 # Environment/config
 .env
 
+# rasp pi known good files
+firmware/
+
+# caching and pytest files
+**/__pycache__/
+pibootcheck/.pytest_cache/
+
+# coverage reports
+coverage.xml
+htmlcov/
+
+# editor swap and backup files
+*~
+*.swp
+*.swo
+
+# logs
+*.log
+
+# vscode task files
+.vscode/tasks.json

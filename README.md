@@ -1,6 +1,6 @@
 # PiBootCheck
 
-a read-only toolkit that grabs the boot-chain off a Raspberry Pi and proves whether it’s running the official firmware or some mystery binary
+a read only toolkit that grabs the boot-chain off a Raspberry Pi and proves whether it’s running the official firmware or some mystery binary
 
 ## what it actually does
 
@@ -8,8 +8,8 @@ a read-only toolkit that grabs the boot-chain off a Raspberry Pi and proves whet
 - extracts the `/boot` partition and copies the boot blobs (`bootcode.bin`, `start.elf`, `fixup*.dat`)
 - runs `strings` and `binwalk` on them for a quick look inside
 - computes sha256 hashes for everything
-- compares those hashes against the **known-good** ones from the official Raspberry Pi firmware repo
-- spits out a human-readable report that says “matches official firmware” or “something’s off”
+- compares those hashes against the **known good** ones from the official Raspberry Pi firmware repo
+- spits out a human readable report that says “matches official firmware” or “something’s off”
 
 that’s it. no drivers, no kernel hooks
 
@@ -17,7 +17,7 @@ that’s it. no drivers, no kernel hooks
 
 if your boot firmware matches the public release **bit for bit**, it’s the same binary everyone else gets.  
 no hidden code, no secret phone-home instructions. any change would flip the hash.  
-this doesn’t prove the kernel or userland are clean — just that the firmware that _starts_ the Pi doesn't have any surprises
+this doesn’t prove the kernel or userland are clean just that the firmware that _starts_ the Pi doesn't have any surprises
 
 ## quickstart
 
@@ -50,7 +50,7 @@ the report lives under `output/<timestamp>/reports/`. open it, scroll down to �
 **mismatch** → probably just a newer firmware, but check  
 **unknown** → file not in baseline (add it if it’s official)
 
-if everything’s green, congrats — your Pi isn’t running some secret firmware
+if everything’s green, congrats your Pi isn’t running some secret firmware
 
 ## safety notes
 
@@ -60,4 +60,3 @@ if everything’s green, congrats — your Pi isn’t running some secret firmwa
 - not a platform security researcher, feel free to tell me everything i did wrong
 
 
-*not even close to being done, i dont even have the folder structure right. seriously, how are you reading this?*

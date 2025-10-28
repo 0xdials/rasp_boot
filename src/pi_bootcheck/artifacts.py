@@ -4,10 +4,18 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from .utils import sha256_of_file, ensure_dir, run_command
 
-EXPECTED_BOOT_FILES = ["start.elf", "bootcode.bin", "fixup.dat", "fixup_cd.dat", "config.txt"]
+EXPECTED_BOOT_FILES = [
+    "start.elf",
+    "bootcode.bin",
+    "fixup.dat",
+    "fixup_cd.dat",
+    "config.txt",
+]
+
 
 class ArtifactNotFound(Exception):
     pass
+
 
 def find_image(root: str) -> Optional[str]:
     """
@@ -19,6 +27,7 @@ def find_image(root: str) -> Optional[str]:
     for p in images_dir.glob("*.img"):
         return str(p)
     return None
+
 
 def collect_boot_files(root: str, boot_mount: str) -> List[str]:
     """
@@ -36,6 +45,7 @@ def collect_boot_files(root: str, boot_mount: str) -> List[str]:
         found.append(str(p))
     return sorted(found)
 
+
 def compute_hashes_for_files(file_paths: List[str], out_path: str) -> Dict[str, str]:
     ensure_dir(os.path.dirname(out_path))
     results = {}
@@ -49,6 +59,7 @@ def compute_hashes_for_files(file_paths: List[str], out_path: str) -> Dict[str, 
             fh.write(f"{h}  {p}\n")
     return results
 
+
 def load_binwalk_summary(root: str) -> Dict[str, dict]:
     """
     Load any binwalk JSON outputs under analysis/binwalk/.
@@ -61,8 +72,8 @@ def load_binwalk_summary(root: str) -> Dict[str, dict]:
         try:
             with open(p, "r", encoding="utf-8") as fh:
                 import json
+
                 out[str(p)] = json.load(fh)
         except Exception:
             out[str(p)] = {"error": "failed to load"}
     return out
-

@@ -71,6 +71,7 @@ _No indicators found._
 - Preserve the original image; share this report + `baseline_compare.json` for peer verification.
 """
 
+
 def render_markdown(root: str, summary: Dict, out_path: str):
     ensure_dir(Path(out_path).parent.as_posix())
     t = Template(MD_TEMPLATE)
@@ -82,17 +83,19 @@ def render_markdown(root: str, summary: Dict, out_path: str):
         boot_files=summary.get("boot_files"),
         baseline_compare=summary.get("baseline_compare"),
         indicators=summary.get("indicators"),
-        binwalk_summary=summary.get("binwalk_summary")
+        binwalk_summary=summary.get("binwalk_summary"),
     )
     with open(out_path, "w", encoding="utf-8") as fh:
         fh.write(content)
     return out_path
 
+
 def render_html(md_path: str, out_path: str):
     try:
         import markdown
+
         with open(md_path, "r", encoding="utf-8") as fh:
-            html = markdown.markdown(fh.read(), extensions=['tables'])
+            html = markdown.markdown(fh.read(), extensions=["tables"])
     except Exception:
         with open(md_path, "r", encoding="utf-8") as fh:
             html = "<pre>" + fh.read() + "</pre>"
@@ -100,4 +103,3 @@ def render_html(md_path: str, out_path: str):
     with open(out_path, "w", encoding="utf-8") as fh:
         fh.write(html)
     return out_path
-

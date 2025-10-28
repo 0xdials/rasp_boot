@@ -1,5 +1,5 @@
 {
-  "source": "Raspberry Pi Firmware Github",
+  "source": "Raspberry Pi Firmware GH",
   "notes": "Known-good SHA256 for Raspberry Pi boot blobs. Replace these with real hashes from official releases.",
   "files": {
     "start.elf": "14d54df30f437e2120dd99f81ae0427ad033a7ed258e20b366a5ffcff5633e35",

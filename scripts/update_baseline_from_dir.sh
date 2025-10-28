@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build/merge a "known-good" SHA256 baseline JSON from a directory of boot blobs.
+# build/merge a "known good" SHA256 baseline JSON from a directory of boot blobs.
 # Usage:
 #   scripts/update_baseline_from_dir.sh <dir> [--output data/known_hashes/raspi_boot_sha256.json] \
 #       [--source "Raspberry Pi Firmware GitHub (latest)"] [--pattern "start.elf bootcode.bin fixup*.dat"] \
@@ -39,7 +39,7 @@ if [[ ! -d "$DIR" ]]; then
   exit 1
 fi
 
-# Gather files
+# gather files
 mapfile -t FILES < <(
   for pat in "${PATTERNS[@]}"; do
     find "$DIR" -type f -name "$pat" -print
@@ -50,19 +50,19 @@ if [[ ${#FILES[@]} -eq 0 ]]; then
   exit 3
 fi
 
-# Temp file (use repo dir to avoid /tmp weirdness)
+# temp file (use repo dir to avoid /tmp weirdness)
 TMP=$(mktemp -p . baseline.XXXXXX)
 trap 'rm -f "$TMP"' EXIT
 : > "$TMP"  # ensure we can write
 
-# Compute hashes
+# hashes
 for f in "${FILES[@]}"; do
   base="$(basename "$f")"
   sum="$(sha256sum "$f" | awk '{print $1}')"
   printf "%s %s\n" "$base" "$sum" >> "$TMP"
 done
 
-# Python merge/write (args BEFORE heredoc; that was the bug)
+# python merge/write (args BEFORE heredoc; that was the bug)
 JSON_OUT=$(python3 - "$TMP" "$OUT" "$SOURCE" "$MERGE" <<'PY'
 import json, sys, os, collections
 # argv: [script, tmp_path, out_path, source, merge_flag]
@@ -111,4 +111,3 @@ mkdir -p "$(dirname "$OUT")"
 printf "%s\n" "$JSON_OUT" > "$OUT"
 echo "Baseline written to: $OUT"
 awk '{printf "  %s -> %s\n",$1,$2}' "$TMP"
-

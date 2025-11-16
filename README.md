@@ -1,3 +1,9 @@
+
+<p align="center">
+  <img src="logos/logo.png" width="180" alt="Project Logo">
+</p>
+
+
 # PiBootCheck
 
 a read only toolkit that grabs the boot-chain off a Raspberry Pi and proves whether it’s running the official firmware or some mystery binary

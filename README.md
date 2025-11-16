@@ -28,6 +28,7 @@ this doesn’t prove the kernel or userland are clean just that the firmware tha
 ## quickstart
 
 if you're on arch you can install it from AUR
+
 `yay -S pibootcheck`
 
 or build it yourself

@@ -27,23 +27,32 @@ this doesn’t prove the kernel or userland are clean just that the firmware tha
 
 ## quickstart
 
-i ran it on arch
+if you're on arch you can install it from AUR
+`yay -S pibootcheck`
 
+or build it yourself
 ```bash
+# requirements and virtual environment setup
 sudo pacman -S binwalk multipath-tools p7zip dosfstools wireshark-cli picocom
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt && pip install -e .
+```
 
-# build the baseline once (hash official boot files)
+once built grab a hash from the official boot files 
+```
 git clone --depth=1 https://github.com/raspberrypi/firmware.git
 scripts/update_baseline_from_dir.sh firmware/boot \
   --source "Raspberry Pi Firmware GitHub (latest)" \
   --output data/known_hashes/raspi_boot_sha256.json
+```
 
-# grab your card and image it
+then image your SD card
+```
 sudo scripts/collect_artifacts.sh
+```
 
-# generate report
+finally, generate the report
+```
 pibootcheck summarize --root output/<timestamp>
 pibootcheck report --root output/<timestamp> --format md
 ```
